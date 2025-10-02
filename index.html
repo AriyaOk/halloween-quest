@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>You Win - Halloween Skeleton Quest</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    color: #00FF00;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  h1 {
+    font-size: 2.5em;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  button {
+    background: #222;
+    color: #00FF00;
+    border: 2px solid #00FF00;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+    z-index: 10;
+  }
+  button:hover {
+    background: #00FF00;
+    color: black;
+  }
+  /* Скелет */
+  .skeleton {
+    position: absolute;
+    width: 100px;
+    height: 150px;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 5;
+    animation: flicker 1s infinite;
+  }
+  .skull {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  .bone {
+    width: 10px;
+    height: 40px;
+    background: white;
+    margin: 2px 0;
+  }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #FF00FF;
+    animation: fall 3s linear forwards;
+  }
+  @keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="skeleton">
+  <div class="skull"></div>
+  <div class="bone"></div>
+  <div class="bone"></div>
+  <div class="bone"></div>
+</div>
+
+<h1>🎉 Поздравляю! Ты нашёл секрет скелета</h1>
+<button id="prizeBtn">Получить приз</button>
+
+<script>
+  const telegramBotLink = "https://t.me/YourBotUsername"; // <- замени на ссылку своего бота
+
+  function createConfetti() {
+    for (let i = 0; i < 30; i++) {
+      const c = document.createElement('div');
+      c.classList.add('confetti');
+      c.style.left = Math.random() * window.innerWidth + 'px';
+      c.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
+      c.style.animationDuration = (2 + Math.random()*2) + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 3000);
+    }
+  }
+
+  document.getElementById('prizeBtn').addEventListener('click', () => {
+    window.open(telegramBotLink, "_blank");
+    createConfetti();
+  });
+</script>
+
+</body>
+</html>
