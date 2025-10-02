@@ -37,32 +37,36 @@
     background: #00FF00;
     color: black;
   }
-  /* Скелет */
-  .skeleton {
+  /* Тыква */
+  .pumpkin {
     position: absolute;
     width: 100px;
-    height: 150px;
+    height: 100px;
     top: 20%;
     left: 50%;
     transform: translateX(-50%);
+    background: orange;
+    border-radius: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 5;
+    justify-content: center;
     animation: flicker 1s infinite;
+    z-index: 5;
   }
-  .skull {
-    width: 50px;
-    height: 50px;
-    background: white;
+  .eyes {
+    width: 20px;
+    height: 20px;
+    background: black;
     border-radius: 50%;
-    margin-bottom: 10px;
+    margin: 5px;
   }
-  .bone {
-    width: 10px;
-    height: 40px;
-    background: white;
-    margin: 2px 0;
+  .mouth {
+    width: 40px;
+    height: 10px;
+    background: black;
+    margin-top: 10px;
+    border-radius: 0 0 5px 5px;
   }
   @keyframes flicker {
     0%, 100% { opacity: 1; }
@@ -83,11 +87,10 @@
 </head>
 <body>
 
-<div class="skeleton">
-  <div class="skull"></div>
-  <div class="bone"></div>
-  <div class="bone"></div>
-  <div class="bone"></div>
+<div class="pumpkin">
+  <div class="eyes"></div>
+  <div class="eyes"></div>
+  <div class="mouth"></div>
 </div>
 
 <h1>🎉 Поздравляю! Ты нашёл секрет скелета</h1>
