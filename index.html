@@ -94,29 +94,23 @@
 </div>
 
 <h1>🎉 Поздравляю! Ты нашёл секрет скелета 🎃</h1>
-<button id="prizeBtn">Получить приз</button>
+<button onclick="sendChoice('Я молодец!')">Я молодец! Разделить всЁ, выигранное сегодня скелетом</button>
+<button onclick="sendChoice('Скелет выполнит желание')">Чтобы в эту ночь скелет выполнил мое желание</button>
+<button onclick="sendChoice('Конфета')">Конфета</button>
+<button onclick="sendChoice('Супер-приз')">Супер-приз</button>
 
 <script>
-  const telegramBotLink = "https://t.me/YourBotUsername"; // <- замени на ссылку своего бота
-
-  function createConfetti() {
-    for (let i = 0; i < 30; i++) {
-      const c = document.createElement('div');
-      c.classList.add('confetti');
-      c.style.left = Math.random() * window.innerWidth + 'px';
-      c.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
-      c.style.animationDuration = (2 + Math.random()*2) + 's';
-      document.body.appendChild(c);
-      setTimeout(() => c.remove(), 3000);
-    }
-  }
-
-  document.getElementById('prizeBtn').addEventListener('click', () => {
-    window.open(telegramBotLink, "_blank");
-    createConfetti();
-  });
+function sendChoice(choice) {
+    const user = prompt("Введите ваше имя:");
+    fetch('https://da9d0a5ba909.ngrok-free.app/choose', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user: user, choice: choice })
+    })
+    .then(res => alert("Выбор отправлен!"))
+    .catch(err => alert("Ошибка отправки. Проверьте сервер."));
+}
 </script>
 
 </body>
 </html>
-
