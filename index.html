@@ -133,7 +133,7 @@
 <script>
 function sendChoice(choice, description) {
     const user = prompt("Введите ваше имя:");
-    fetch('https://da9d0a5ba909.ngrok-free.app/choose', {
+    fetch('https://749b1dc5ce13.ngrok-free.app/choose', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user: user, choice: choice, description: description })
@@ -149,3 +149,4 @@ function sendChoice(choice, description) {
 
 </body>
 </html>
+
