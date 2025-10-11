@@ -53,7 +53,7 @@
   }
 
   .description {
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: #7FFF7F;
     margin-bottom: 25px;
   }
@@ -106,37 +106,37 @@
 <h1>🎉 Поздравляю! Ты нашёл секрет скелета 🎃</h1>
 
 <div class="button-container">
-    <button onclick="sendChoice('Душа скелета')">Душа скелета ✨</button>
-    <div class="description">Скелет выполнит твое желание этой ночью </div>
+    <button onclick="sendChoice('Душа скелета', 'Скелет выполнит твое желание этой ночью ✨')">Душа скелета ✨</button>
+    <div class="description">Скелет выполнит твое желание этой ночью</div>
 </div>
 
 <div class="button-container">
-    <button onclick="sendChoice('Тело скелета')">Тело скелета 🦴</button>
-    <div class="description">Скелет разделит всё "выигранное" этой ночью с тобой </div>
+    <button onclick="sendChoice('Тело скелета', 'Скелет разделит всё "выигранное" этой ночью с тобой 🦴')">Тело скелета 🦴</button>
+    <div class="description">Скелет разделит всё "выигранное" этой ночью с тобой</div>
 </div>
 
 <div class="button-container">
-    <button onclick="sendChoice('Скелетная сладость')">Скелетная сладость 🍬</button>
-    <div class="description">Конфетка от скелета</div>
+    <button onclick="sendChoice('Скелетная сладость', 'Сладость от самого скелета 🍬')">Скелетная сладость 🍬</button>
+    <div class="description">Сладость от самого скелета</div>
 </div>
 
 <div class="button-container">
-    <button onclick="sendChoice('Сундук скелета')">Сундук скелета 🎁</button>
+    <button onclick="sendChoice('Сундук скелета', 'Главный приз от костяного хозяина ночи 🎁')">Сундук скелета 🎁</button>
     <div class="description">Главный приз от скелета (не факт, что очень хороший 😈)</div>
 </div>
 
 <div class="button-container">
-    <button onclick="sendChoice('Debug Potion')">Debug Potion</button>
+    <button onclick="sendChoice('Debug Potion', 'Зелье для исправления багов 🧪')">Debug Potion</button>
     <div class="description">Зелье для исправления багов 🧪</div>
 </div>
 
 <script>
-function sendChoice(choice) {
+function sendChoice(choice, description) {
     const user = prompt("Введите ваше имя:");
     fetch('https://da9d0a5ba909.ngrok-free.app/choose', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user: user, choice: choice })
+        body: JSON.stringify({ user: user, choice: choice, description: description })
     })
     .then(res => {
         alert("💀 Скелет знает о твоем выборе! Назови своё имя и получи выбранное.");
@@ -149,4 +149,3 @@ function sendChoice(choice) {
 
 </body>
 </html>
-
