@@ -52,15 +52,21 @@
     box-shadow: 0 0 20px #00FF00;
   }
 
+  button.selected {
+    background-color: #00FF00;
+    color: black;
+    box-shadow: 0 0 25px #00FF00;
+    transform: scale(1.05);
+  }
+
   .description {
     font-size: 1.3em;
     color: #7FFF7F;
     margin-bottom: 25px;
-    line-height: 1.5em; /* высота строки */
-    min-height: 3em;    /* минимальная высота блока, чтобы все одинаково выглядело */
+    line-height: 1.5em;
+    min-height: 3em;
   }
 
-  /* Тыква сверху */
   .pumpkin {
     position: absolute;
     width: 120px;
@@ -109,22 +115,30 @@
 <h1>🎉 Wybierz swoją nagrodę 🎉</h1>
 
 <div class="button-container">
-    <button onclick="sendChoice('Poznaj swoją przyszłość', 'Otrzymaj przepowiednię od szkieleta ✨')">Poznaj swoją przyszłość ✨</button>
+    <button onclick="sendChoice('Poznaj swoją przyszłość', 'Otrzymaj przepowiednię od szkieleta 😈', this)">
+        Poznaj swoją przyszłość ✨
+    </button>
     <div class="description">Otrzymaj przepowiednię od szkieleta 😈</div>
 </div>
 
 <div class="button-container">
-    <button onclick="sendChoice('Debug Potion', 'Eliksir naprawy błędów 🧪')">Debug Potion 🧪</button>
+    <button onclick="sendChoice('Debug Potion', 'Eliksir naprawy błędów 🧪', this)">
+        Debug Potion 🧪
+    </button>
     <div class="description">Eliksir naprawy błędów. Trzeba być pierwszy! Jeśli nagroda została już zabrana, zostaniesz z niczym 😈</div>
 </div>
   
 <div class="button-container">
-    <button onclick="sendChoice('Skrzynia szkieleta', 'Główna nagroda od kościanego władcy nocy 🎁')">Skrzynia szkieleta 🎁</button>
+    <button onclick="sendChoice('Skrzynia szkieleta', 'Główna nagroda od kościanego władcy nocy 🎁', this)">
+        Skrzynia szkieleta 🎁
+    </button>
     <div class="description">Główna nagroda od szkieleta! Trzeba być pierwszy! Jeśli nagroda została już zabrana, zostaniesz z niczym 😈</div>
 </div>
  
 <div class="button-container">
-    <button onclick="sendChoice('Szkieletowy smakołyk', 'Słodycz prosto od samego szkieleta 🍬')">Szkieletowy smakołyk 🍬</button>
+    <button onclick="sendChoice('Szkieletowy smakołyk', 'Słodycz prosto od samego szkieleta 🍬', this)">
+        Szkieletowy smakołyk 🍬
+    </button>
     <div class="description">Słodycz prosto od samego szkieleta. Do wyczerpania zapasów 😈</div>
 </div>
 
@@ -141,10 +155,16 @@
 </div>
 
 <script>
-let pendingChoice = null; // Здесь будем хранить выбор перед отправкой
+let pendingChoice = null;
 
-function sendChoice(choice, description) {
-    // Сохраняем данные, показываем модальное окно
+function sendChoice(choice, description, btn) {
+    // Снимаем выделение со всех кнопок
+    document.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+    
+    // Выделяем текущую кнопку
+    btn.classList.add('selected');
+
+    // Показываем модальное окно для имени
     pendingChoice = { choice, description };
     document.getElementById('nameModal').style.display = 'flex';
 }
@@ -182,22 +202,3 @@ function submitName() {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
