@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>You Win - Halloween Skeleton Quest</title>
 <style>
   body {
@@ -158,25 +159,27 @@
 let pendingChoice = null;
 
 function sendChoice(choice, description, btn) {
-    // Снимаем выделение со всех кнопок
     document.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
-    
-    // Выделяем текущую кнопку
     btn.classList.add('selected');
-
-    // Показываем модальное окно для имени
     pendingChoice = { choice, description };
     document.getElementById('nameModal').style.display = 'flex';
+    
+    // Сбрасываем scroll и zoom на мобильных при открытии модалки
+    window.scrollTo(0,0);
 }
 
 function submitName() {
-    const user = document.getElementById('userName').value.trim();
+    const input = document.getElementById('userName');
+    const user = input.value.trim();
     if (!user) {
         alert("Proszę wpisać swoje imię!");
         return;
     }
 
     document.getElementById('nameModal').style.display = 'none';
+
+    // Снимаем фокус и скрываем клавиатуру на мобильных
+    input.blur();
 
     fetch('https://62bc1842cecf.ngrok-free.app/choose', {
         method: 'POST',
@@ -194,9 +197,8 @@ function submitName() {
         alert("⚠️ Automat szkieleta się zepsuł, ale jeśli pokażesz mu tę wiadomość, otrzymasz swoją nagrodę");
     });
 
-    // Очистка для следующего выбора
     pendingChoice = null;
-    document.getElementById('userName').value = '';
+    input.value = '';
 }
 </script>
 
