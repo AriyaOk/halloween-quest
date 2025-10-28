@@ -130,11 +130,13 @@
 
 <!-- Кастомное модальное окно для имени -->
 <div id="nameModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-    background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
-    <div style="background:white; padding:20px; border-radius:10px; text-align:center; max-width:300px;">
-        <p>Wpisz swoje imię 🌟</p>
-        <input id="userName" type="text" style="width:100%; padding:5px; margin-bottom:10px;">
-        <button onclick="submitName()">OK</button>
+    background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000;">
+    <div style="background:#111; padding:30px; border-radius:15px; text-align:center; max-width:400px; color:#00FF00; box-shadow: 0 0 20px #00FF00;">
+        <p style="font-size:1.8em; font-weight:bold; margin-bottom:20px;">Wpisz swoje imię 🌟</p>
+        <input id="userName" type="text" style="width:100%; padding:10px; margin-bottom:20px; font-size:1.3em; border-radius:8px; border:2px solid #00FF00; background:#222; color:#00FF00;">
+        <button onclick="submitName()" style="padding:12px 25px; font-size:1.3em; font-weight:bold; border-radius:10px; border:2px solid #00FF00; background:#111; color:#00FF00; cursor:pointer; box-shadow: 0 0 10px #00FF00; transition: all 0.3s ease;">
+            OK
+        </button>
     </div>
 </div>
 
@@ -180,6 +182,7 @@ function submitName() {
 
 </body>
 </html>
+
 
 
 
