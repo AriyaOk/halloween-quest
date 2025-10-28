@@ -103,53 +103,49 @@
   <div class="mouth"></div>
 </div>
 
-<h1>🎃 Поздравляю! Ты нашёл секрет скелета 🎃</h1>
-<h1>🎉 Выбери свой приз 🎉</h1>
+<h1>🎃 Gratulacje! Znalazłeś sekret szkieleta 🎃</h1>
+<h1>🎉 Wybierz swoją nagrodę 🎉</h1>
 
 <div class="button-container">
-    <button onclick="sendChoice('Душа скелета', 'Скелет выполнит твое желание этой ночью ✨')">Душа скелета ✨</button>
-    <div class="description">Скелет выполнит твое желание этой ночью</div>
+    <button onclick="sendChoice('Poznaj swoją przyszłość', 'Otrzymaj przepowiednię od szkieleta ✨')">Poznaj swoją przyszłość ✨</button>
+    <div class="description">Otrzymaj przepowiednię od szkieleta</div>
 </div>
 
 <div class="button-container">
-    <button onclick="sendChoice('Тело скелета', 'Скелет разделит всё заработанное этой ночью с тобой 🦴')">Тело скелета 🦴</button>
-    <div class="description">Скелет разделит всё заработанное этой ночью с тобой</div>
+    <button onclick="sendChoice('Szkieletowy smakołyk', 'Słodycz prosto od samego szkieleta 🍬')">Szkieletowy smakołyk 🍬</button>
+    <div class="description">Słodycz prosto od samego szkieleta</div>
 </div>
 
 <div class="button-container">
-    <button onclick="sendChoice('Скелетная сладость', 'Сладость от самого скелета 🍬')">Скелетная сладость 🍬</button>
-    <div class="description">Сладость от самого скелета</div>
+    <button onclick="sendChoice('Skrzynia szkieleta', 'Główna nagroda od kościanego władcy nocy 🎁')">Skrzynia szkieleta 🎁</button>
+    <div class="description">Główna nagroda od szkieleta (niekoniecznie bardzo dobra 😈)</div>
 </div>
 
 <div class="button-container">
-    <button onclick="sendChoice('Сундук скелета', 'Главный приз от костяного хозяина ночи 🎁')">Сундук скелета 🎁</button>
-    <div class="description">Главный приз от скелета (не факт, что очень хороший 😈)</div>
-</div>
-
-<div class="button-container">
-    <button onclick="sendChoice('Debug Potion', 'Зелье для исправления багов 🧪')">Debug Potion 🧪</button>
-    <div class="description">Зелье для исправления багов</div>
+    <button onclick="sendChoice('Debug Potion', 'Eliksir naprawy błędów 🧪')">Debug Potion 🧪</button>
+    <div class="description">Eliksir naprawy błędów</div>
 </div>
 
 <script>
 function sendChoice(choice, description) {
-    const user = prompt("Введите ваше имя:");
+    const user = prompt("Wpisz swoje imię:");
     fetch('https://749b1dc5ce13.ngrok-free.app/choose', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user: user, choice: choice, description: description })
     })
     .then(res => {
-        alert("💀 Скелет знает о твоем выборе! Назови своё имя и получи выбранное.");
+        alert("💀 Szkielet zna twój wybór! Podaj swoje imię i odbierz nagrodę");
     })
     .catch(err => {
-        alert("⚠️ У скелета автоматика сломалась, но если покажешь ему это сообщение, получишь свой приз.");
+        alert("⚠️ Automat szkieleta się zepsuł, ale jeśli pokażesz mu tę wiadomość, otrzymasz swoją nagrodę");
     });
 }
 </script>
 
 </body>
 </html>
+
 
 
 
