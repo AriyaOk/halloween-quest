@@ -1,20 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<!-- Оставляем масштабирование включённым — лучше для доступности -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
 <title>You Win - Halloween Skeleton Quest</title>
 <style>
-  /* Предотвращаем авто-увеличение текста на iOS/Android */
-  html { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
-
-  :root { font-size: 16px; }
-
   body {
     margin: 0;
     padding: 0;
-    background: #000;
+    background: black;
     color: #00FF00;
     font-family: 'Courier New', monospace;
     display: flex;
@@ -25,104 +18,88 @@
     overflow-x: hidden;
   }
 
-  h1 { font-size: 2.2rem; text-align:center; margin: 0 0 20px; }
-  .button-container { margin-bottom: 22px; text-align:center; width:100%; }
-
-  button.choice-btn {
-    display: block;
-    width: 320px;
-    max-width: 92vw;
-    margin: 0 auto 8px auto;
-    padding: 14px;
-    font-size: 1.25rem;
-    font-weight: 700;
-    border: 2px solid #00FF00;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
-    background-color: #111;
-    color: #00FF00;
-    box-shadow: 0 0 8px #00FF00;
-  }
-  button.choice-btn:hover { transform: scale(1.03); }
-  button.choice-btn.selected {
-    background-color: #00FF00;
-    color: #000;
-    box-shadow: 0 0 20px #00FF00;
-    transform: scale(1.03);
+  h1 {
+    font-size: 2.8em;
+    text-align: center;
+    margin-bottom: 50px;
   }
 
-  .description {
-    font-size: 1.05rem;
-    color: #7FFF7F;
-    margin: 0 auto 12px;
-    line-height: 1.4;
-    min-height: 3rem;
-    max-width: 92vw;
-  }
-
-  /* Pumpkin */
-  .pumpkin { position:absolute; width:110px; height:110px; top:18px; left:50%; transform:translateX(-50%); background:orange; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; animation: flicker 1s infinite; z-index:1; }
-  .eyes{ width:18px; height:18px; background:#000; border-radius:50%; margin:4px; }
-  .mouth{ width:44px; height:9px; background:#000; margin-top:8px; border-radius:0 0 8px 8px; }
-  @keyframes flicker { 0%,100%{opacity:1} 50%{opacity:.35} }
-
-  /* Modal */
-  #nameModal {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0,0,0,0.72);
-    z-index: 1000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .16s ease;
-  }
-  #nameModal.open { opacity: 1; pointer-events: auto; }
-
-  .modal-card {
-    background: #0d0d0d;
-    padding: 28px;
-    border-radius: 14px;
-    width: min(420px, 92%);
-    color: #00FF00;
-    box-shadow: 0 0 20px #00FF00;
+  .button-container {
+    margin-bottom: 30px;
     text-align: center;
   }
 
-  .modal-card .title { font-size: 1.6rem; font-weight: 800; margin-bottom: 18px; }
-
-  /* КРИТИЧНО: font-size >= 16px предотвращает автоматический zoom на мобильных */
-  #userName {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px; /* важное значение */
-    border-radius: 8px;
+  button {
+    display: block;
+    width: 320px;
+    margin: 0 auto 10px auto;
+    padding: 15px;
+    font-size: 1.5em;
+    font-weight: bold;
     border: 2px solid #00FF00;
-    background: #222;
-    color: #00FF00;
-    margin-bottom: 16px;
-    box-sizing: border-box;
-  }
-
-  .ok-btn {
-    padding: 10px 22px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    border-radius: 9px;
-    border: 2px solid #00FF00;
-    background: #111;
-    color: #00FF00;
+    border-radius: 12px;
     cursor: pointer;
-    box-shadow: 0 0 8px #00FF00;
+    transition: all 0.3s ease;
+    background-color: #111;
+    color: #00FF00;
+    box-shadow: 0 0 10px #00FF00;
   }
 
-  /* небольшая адаптация для маленьких экранов */
-  @media (max-width: 380px) {
-    h1 { font-size: 1.6rem; }
-    button.choice-btn { font-size: 1.05rem; padding: 12px; }
+  button:hover {
+    background-color: #00FF00;
+    color: black;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #00FF00;
+  }
+
+  button.selected {
+    background-color: #00FF00;
+    color: black;
+    box-shadow: 0 0 25px #00FF00;
+    transform: scale(1.05);
+  }
+
+  .description {
+    font-size: 1.3em;
+    color: #7FFF7F;
+    margin-bottom: 25px;
+    line-height: 1.5em;
+    min-height: 3em;
+  }
+
+  .pumpkin {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: orange;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: flicker 1s infinite;
+    z-index: 1;
+  }
+  .eyes {
+    width: 20px;
+    height: 20px;
+    background: black;
+    border-radius: 50%;
+    margin: 5px;
+  }
+  .mouth {
+    width: 50px;
+    height: 10px;
+    background: black;
+    margin-top: 10px;
+    border-radius: 0 0 8px 8px;
+  }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
   }
 </style>
 </head>
@@ -138,99 +115,88 @@
 <h1>🎉 Wybierz swoją nagrodę 🎉</h1>
 
 <div class="button-container">
-  <button class="choice-btn" onclick="sendChoice('Poznaj swoją przyszłość', 'Otrzymaj przepowiednię od szkieleta 😈', this)">Poznaj swoją przyszłość ✨</button>
-  <div class="description">Otrzymaj przepowiednię od szkieleta 😈</div>
+    <button onclick="sendChoice('Poznaj swoją przyszłość', 'Otrzymaj przepowiednię od szkieleta 😈', this)">
+        Poznaj swoją przyszłość ✨
+    </button>
+    <div class="description">Otrzymaj przepowiednię od szkieleta 😈</div>
 </div>
 
 <div class="button-container">
-  <button class="choice-btn" onclick="sendChoice('Debug Potion', 'Eliksir naprawy błędów 🧪', this)">Debug Potion 🧪</button>
-  <div class="description">Eliksir naprawy błędów. Trzeba być pierwszy! Jeśli nagroda została już zabrana, zostaniesz z niczym 😈</div>
+    <button onclick="sendChoice('Debug Potion', 'Eliksir naprawy błędów 🧪', this)">
+        Debug Potion 🧪
+    </button>
+    <div class="description">Eliksir naprawy błędów. Trzeba być pierwszy! Jeśli nagroda została już zabrana, zostaniesz z niczym 😈</div>
 </div>
-
+  
 <div class="button-container">
-  <button class="choice-btn" onclick="sendChoice('Skrzynia szkieleta', 'Główna nagroda od kościanego władcy nocy 🎁', this)">Skrzynia szkieleta 🎁</button>
-  <div class="description">Główna nagroda od szkieleta! Trzeba być pierwszy! Jeśli nagroda została już zabrana, zostaniesz z niczym 😈</div>
+    <button onclick="sendChoice('Skrzynia szkieleta', 'Główna nagroda od kościanego władcy nocy 🎁', this)">
+        Skrzynia szkieleta 🎁
+    </button>
+    <div class="description">Główna nagroda od szkieleta! Trzeba być pierwszy! Jeśli nagroda została już zabrana, zostaniesz z niczym 😈</div>
 </div>
-
+ 
 <div class="button-container">
-  <button class="choice-btn" onclick="sendChoice('Szkieletowy smakołyk', 'Słodycz prosto od samego szkieleta 🍬', this)">Szkieletowy smakołyk 🍬</button>
-  <div class="description">Słodycz prosto od samego szkieleta. Do wyczerpania zapasów 😈</div>
+    <button onclick="sendChoice('Szkieletowy smakołyk', 'Słodycz prosto od samego szkieleta 🍬', this)">
+        Szkieletowy smakołyk 🍬
+    </button>
+    <div class="description">Słodycz prosto od samego szkieleta. Do wyczerpania zapasów 😈</div>
 </div>
 
-<!-- Модалка -->
-<div id="nameModal" aria-hidden="true">
-  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="namePrompt">
-    <div id="namePrompt" class="title">Wpisz swoje imię 🌟</div>
-    <input id="userName" type="text" inputmode="text" autocomplete="name" placeholder="Twoje imię">
-    <div><button class="ok-btn" onclick="submitName()">OK</button></div>
-  </div>
+<!-- Кастомное модальное окно для имени -->
+<div id="nameModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
+    background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000;">
+    <div style="background:#111; padding:30px; border-radius:15px; text-align:center; max-width:400px; color:#00FF00; box-shadow: 0 0 20px #00FF00;">
+        <p style="font-size:1.8em; font-weight:bold; margin-bottom:20px;">Wpisz swoje imię 🌟</p>
+        <input id="userName" type="text" style="width:100%; padding:10px; margin-bottom:20px; font-size:1.3em; border-radius:8px; border:2px solid #00FF00; background:#222; color:#00FF00;">
+        <button onclick="submitName()" style="padding:12px 25px; font-size:1.3em; font-weight:bold; border-radius:10px; border:2px solid #00FF00; background:#111; color:#00FF00; cursor:pointer; box-shadow: 0 0 10px #00FF00; transition: all 0.3s ease;">
+            OK
+        </button>
+    </div>
 </div>
 
 <script>
-/* Простая, надёжная логика */
 let pendingChoice = null;
-let modal = document.getElementById('nameModal');
-let input = document.getElementById('userName');
 
 function sendChoice(choice, description, btn) {
-  // снять подсветку со всех
-  document.querySelectorAll('button.choice-btn').forEach(b => b.classList.remove('selected'));
-  // подсветить выбранную
-  btn.classList.add('selected');
+    // Снимаем выделение со всех кнопок
+    document.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+    
+    // Выделяем текущую кнопку
+    btn.classList.add('selected');
 
-  pendingChoice = { choice, description };
-
-  // показать модалку
-  modal.classList.add('open');
-  modal.setAttribute('aria-hidden', 'false');
-
-  // скроллим наверх, чтобы мобильная клавиатура не уехала слишком далеко
-  window.scrollTo(0, 0);
-
-  // ставим фокус с небольшой задержкой для UX (не ставим автофокус сразу)
-  setTimeout(() => {
-    try { input.focus(); } catch(e){}
-  }, 140);
+    // Показываем модальное окно для имени
+    pendingChoice = { choice, description };
+    document.getElementById('nameModal').style.display = 'flex';
 }
 
 function submitName() {
-  const user = input.value.trim();
-  if (!user) {
-    alert("Proszę wpisać swoje imię!");
-    input.focus();
-    return;
-  }
+    const user = document.getElementById('userName').value.trim();
+    if (!user) {
+        alert("Proszę wpisać swoje imię!");
+        return;
+    }
 
-  // прячем модалку
-  modal.classList.remove('open');
-  modal.setAttribute('aria-hidden', 'true');
+    document.getElementById('nameModal').style.display = 'none';
 
-  // снимаем фокус -> это помогает вернуть нормальный zoom на мобильных
-  input.blur();
-
-  // страховочный scrollTo через небольшой таймаут
-  setTimeout(() => { window.scrollTo(0, 0); }, 120);
-
-  // отправляем на сервер
-  fetch('https://62bc1842cecf.ngrok-free.app/choose', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      user: user,
-      choice: pendingChoice ? pendingChoice.choice : null,
-      description: pendingChoice ? pendingChoice.description : null
+    fetch('https://62bc1842cecf.ngrok-free.app/choose', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            user: user,
+            choice: pendingChoice.choice,
+            description: pendingChoice.description
+        })
     })
-  })
-  .then(res => {
-    alert("💀 Szkielet zna twój wybór! Podaj swoje imię i odbierz nagrodę");
-  })
-  .catch(err => {
-    alert("⚠️ Automat szkieleta się zepsuł, ale jeśli pokażesz mu tę wiadomość, otrzymasz swoją nagrodę");
-  });
+    .then(res => {
+        alert("💀 Szkielet zna twój wybór! Podaj swoje imię i odbierz nagrodę");
+    })
+    .catch(err => {
+        alert("⚠️ Automat szkieleta się zepsuł, ale jeśli pokażesz mu tę wiadomość, otrzymasz swoją nagrodę");
+    });
 
-  // очистка
-  pendingChoice = null;
-  input.value = '';
+    // Очистка для следующего выбора
+    pendingChoice = null;
+    document.getElementById('userName').value = '';
 }
 </script>
 
