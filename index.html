@@ -2,9 +2,11 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<!-- НЕ блокируем масштабирование, но устанавливаем нормальный viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>You Win - Halloween Skeleton Quest</title>
 <style>
+  :root { font-size: 16px; } /* базовый размер шрифта */
   body {
     margin: 0;
     padding: 0;
@@ -33,6 +35,7 @@
   button {
     display: block;
     width: 320px;
+    max-width: 90vw;
     margin: 0 auto 10px auto;
     padding: 15px;
     font-size: 1.5em;
@@ -40,7 +43,7 @@
     border: 2px solid #00FF00;
     border-radius: 12px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
     background-color: #111;
     color: #00FF00;
     box-shadow: 0 0 10px #00FF00;
@@ -66,6 +69,7 @@
     margin-bottom: 25px;
     line-height: 1.5em;
     min-height: 3em;
+    max-width: 90vw;
   }
 
   .pumpkin {
@@ -102,6 +106,67 @@
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
   }
+
+  /* Модалка */
+  #nameModal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.18s ease;
+  }
+  #nameModal.open { display: flex; }
+
+  #nameModal .modal-card {
+    background: #111;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 420px;
+    width: 90%;
+    color: #00FF00;
+    box-shadow: 0 0 20px #00FF00;
+  }
+
+  #nameModal p.title {
+    font-size: 1.8em;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  /* ВАЖНО: font-size >= 16px предотвращает автоматическое zoom на iOS/Android */
+  #userName {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px; /* <- критично */
+    border-radius: 8px;
+    border: 2px solid #00FF00;
+    background: #222;
+    color: #00FF00;
+    box-sizing: border-box;
+  }
+
+  .ok-btn {
+    padding: 12px 25px;
+    font-size: 1.3em;
+    font-weight: bold;
+    border-radius: 10px;
+    border: 2px solid #00FF00;
+    background: #111;
+    color: #00FF00;
+    cursor: pointer;
+    box-shadow: 0 0 10px #00FF00;
+    transition: all 0.18s ease;
+  }
+  .ok-btn:active { transform: translateY(1px); }
+
+  /* Если нужно, можно скрыть фокусную рамку на мобильных, но оставляем для доступности */
+  input:focus { outline: 2px solid rgba(0,255,0,0.15); }
 </style>
 </head>
 <body>
@@ -144,50 +209,69 @@
 </div>
 
 <!-- Кастомное модальное окно для имени -->
-<div id="nameModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-    background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:1000;">
-    <div style="background:#111; padding:30px; border-radius:15px; text-align:center; max-width:400px; color:#00FF00; box-shadow: 0 0 20px #00FF00;">
-        <p style="font-size:1.8em; font-weight:bold; margin-bottom:20px;">Wpisz swoje imię 🌟</p>
-        <input id="userName" type="text" style="width:100%; padding:10px; margin-bottom:20px; font-size:1.3em; border-radius:8px; border:2px solid #00FF00; background:#222; color:#00FF00;">
-        <button onclick="submitName()" style="padding:12px 25px; font-size:1.3em; font-weight:bold; border-radius:10px; border:2px solid #00FF00; background:#111; color:#00FF00; cursor:pointer; box-shadow: 0 0 10px #00FF00; transition: all 0.3s ease;">
-            OK
-        </button>
+<div id="nameModal" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="namePrompt">
+    <p id="namePrompt" class="title">Wpisz swoje imię 🌟</p>
+    <input id="userName" type="text" inputmode="text" autocomplete="name" placeholder="Twoje imię">
+    <div>
+      <button class="ok-btn" onclick="submitName()">OK</button>
     </div>
+  </div>
 </div>
 
 <script>
 let pendingChoice = null;
+let lastSelectedButton = null;
+let modal = document.getElementById('nameModal');
+let input = document.getElementById('userName');
 
 function sendChoice(choice, description, btn) {
+    // Снимаем выделение со всех кнопок
     document.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+    // Выделяем текущую кнопку
     btn.classList.add('selected');
+    lastSelectedButton = btn;
+
+    // Сохраняем данные и показываем модалку
     pendingChoice = { choice, description };
-    document.getElementById('nameModal').style.display = 'flex';
-    
-    // Сбрасываем scroll и zoom на мобильных при открытии модалки
-    window.scrollTo(0,0);
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+
+    // скроллим вверх, чтобы мобильная клавиатура не смещала ненужно
+    window.scrollTo(0, 0);
+
+    // С небольшой задержкой ставим фокус в input (лучше UX), но это может вызвать появление клавиатуры — норм.
+    setTimeout(() => {
+      input.focus();
+    }, 120);
 }
 
 function submitName() {
-    const input = document.getElementById('userName');
     const user = input.value.trim();
     if (!user) {
         alert("Proszę wpisać swoje imię!");
+        input.focus();
         return;
     }
 
-    document.getElementById('nameModal').style.display = 'none';
+    // Скрываем модальное окно
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
 
-    // Снимаем фокус и скрываем клавиатуру на мобильных
+    // Снимаем фокус и скрываем клавиатуру
     input.blur();
 
+    // небольшой притормаживающий вызов scrollTo, чтобы мобильные браузеры успели убрать клавиатуру
+    setTimeout(() => { window.scrollTo(0, 0); }, 120);
+
+    // POST запрос
     fetch('https://62bc1842cecf.ngrok-free.app/choose', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             user: user,
-            choice: pendingChoice.choice,
-            description: pendingChoice.description
+            choice: pendingChoice ? pendingChoice.choice : null,
+            description: pendingChoice ? pendingChoice.description : null
         })
     })
     .then(res => {
@@ -197,6 +281,7 @@ function submitName() {
         alert("⚠️ Automat szkieleta się zepsuł, ale jeśli pokażesz mu tę wiadomość, otrzymasz swoją nagrodę");
     });
 
+    // очистка
     pendingChoice = null;
     input.value = '';
 }
