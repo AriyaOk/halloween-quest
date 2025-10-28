@@ -132,38 +132,55 @@
 <div id="nameModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
     background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
     <div style="background:white; padding:20px; border-radius:10px; text-align:center; max-width:300px;">
-        <p>Jak masz na imię? 🌟</p>
+        <p>Wpisz swoje imię 🌟</p>
         <input id="userName" type="text" style="width:100%; padding:5px; margin-bottom:10px;">
         <button onclick="submitName()">OK</button>
     </div>
 </div>
 
 <script>
-let choiceTitle, choiceDesc;
+let pendingChoice = null; // Здесь будем хранить выбор перед отправкой
 
-function askNameAndSendChoice(title, desc) {
-    choiceTitle = title;
-    choiceDesc = desc;
+function sendChoice(choice, description) {
+    // Сохраняем данные, показываем модальное окно
+    pendingChoice = { choice, description };
     document.getElementById('nameModal').style.display = 'flex';
 }
 
 function submitName() {
-    const name = document.getElementById('userName').value || "Nieznajomy";
-    document.getElementById('nameModal').style.display = 'none';
-    
-    // Здесь вызываем твой основной скрипт или Python-интеграцию
-    // Например, если sendChoice запускает дальнейшую логику:
-    sendChoice(choiceTitle, `${choiceDesc} Dla Ciebie, ${name}!`);
-}
+    const user = document.getElementById('userName').value.trim();
+    if (!user) {
+        alert("Proszę wpisać swoje imię!");
+        return;
+    }
 
-function sendChoice(title, message) {
-    alert(`Wybrano: ${title}\n${message}`);
-    // Тут может быть вызов Python скрипта через backend
+    document.getElementById('nameModal').style.display = 'none';
+
+    fetch('https://62bc1842cecf.ngrok-free.app/choose', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            user: user,
+            choice: pendingChoice.choice,
+            description: pendingChoice.description
+        })
+    })
+    .then(res => {
+        alert("💀 Szkielet zna twój wybór! Podaj swoje imię i odbierz nagrodę");
+    })
+    .catch(err => {
+        alert("⚠️ Automat szkieleta się zepsuł, ale jeśli pokażesz mu tę wiadomość, otrzymasz swoją nagrodę");
+    });
+
+    // Очистка для следующего выбора
+    pendingChoice = null;
+    document.getElementById('userName').value = '';
 }
 </script>
 
 </body>
 </html>
+
 
 
 
